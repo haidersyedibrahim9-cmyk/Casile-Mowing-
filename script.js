@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     // Send booking to owner via Web3Forms
-    var web3formsKey = localStorage.getItem('web3forms_key') || 'YOUR_WEB3FORMS_KEY_HERE';
+    var web3formsKey = '5b694e4d-6b11-4d67-95c4-4e806a338cbe';
     
     fetch('https://api.web3forms.com/submit', {
       method: 'POST',
