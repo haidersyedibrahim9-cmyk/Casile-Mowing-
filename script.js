@@ -178,19 +178,42 @@ document.addEventListener('DOMContentLoaded', function () {
       createdAt: new Date().toISOString()
     };
 
-    // Simulate network delay (300ms)
-    setTimeout(function () {
-      // Save to localStorage
-      saveBooking(formData);
+    // Send booking to owner via Web3Forms
+    var web3formsKey = localStorage.getItem('web3forms_key') || 'YOUR_WEB3FORMS_KEY_HERE';
+    
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_key: web3formsKey,
+        subject: 'New Booking - Casile Mowing',
+        from_name: formData.name,
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        address: formData.address,
+        service: formData.serviceLabel,
+        yardSize: formData.yardSizeLabel,
+        date: formData.date,
+        time: formData.timeLabel,
+        notes: formData.notes,
+        booking_id: formData.id
+      })
+    }).catch(function () {
+      // If web3forms fails, still save locally
+      console.log('Booking saved locally');
+    });
 
-      // Show confirmation modal
-      showConfirmation(formData);
+    // Save to localStorage
+    saveBooking(formData);
 
-      // Reset button
-      submitText.textContent = 'Confirm Booking';
-      submitSpinner.style.display = 'none';
-      submitBtn.disabled = false;
-    }, 600);
+    // Show confirmation modal
+    showConfirmation(formData);
+
+    // Reset button
+    submitText.textContent = 'Confirm Booking';
+    submitSpinner.style.display = 'none';
+    submitBtn.disabled = false;
   });
 
   // ============================================
